@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:supermarket_app/screens/product_list_screen.dart';
+import 'package:supermarket_app/screens/search_results_screen.dart';
 
 
 
@@ -67,17 +68,26 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       const SizedBox(height: 20), // spacing between location and grid
       TextField(
-      decoration: InputDecoration(
-        prefixIcon: Icon(Icons.search),
-        hintText: "Search products",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        filled: true,
-        fillColor: Colors.grey[200],
-      ),
+  decoration: InputDecoration(
+    prefixIcon: Icon(Icons.search),
+    hintText: "Search products",
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide.none,
     ),
+    filled: true,
+    fillColor: Colors.grey[200],
+  ),
+  onSubmitted: (query) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SearchResultsScreen(query: query),
+      ),
+    );
+  },
+),
+
 
     SizedBox(height: 20),
     //BANNER 

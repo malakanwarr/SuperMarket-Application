@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart'; // Your login screen
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: 30),
             CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage("assets/images/user_avatar.png"), // Placeholder image
+              backgroundColor: Colors.grey[300],
             ),
             SizedBox(height: 12),
             Text(
@@ -30,19 +31,79 @@ class ProfileScreen extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.edit),
               title: Text("Edit Profile"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Settings"),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => EditProfileScreen()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text("Log Out"),
               onTap: () {
-                // Add logout logic here
+                // Clear session if any, then navigate to login
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => PhoneLoginScreen()),
+                  (route) => false,
+                );
               },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// -------------------------
+// Edit Profile Screen
+// -------------------------
+class EditProfileScreen extends StatefulWidget {
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  final _nameController = TextEditingController(text: "Malak Anwar");
+  final _emailController =
+      TextEditingController(text: "malakanwar2112@gmail.com");
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Edit Profile"),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: "Full Name"),
+            ),
+            SizedBox(height: 12),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: "Email"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Save logic here
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Profile updated!")),
+                );
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 8, 60, 11),
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  minimumSize: Size(double.infinity, 50)),
+              child: Text("Save", style: TextStyle(fontSize: 16)),
             ),
           ],
         ),

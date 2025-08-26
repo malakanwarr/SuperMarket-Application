@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supermarket_app/models/product.dart';
+import 'package:supermarket_app/providers/cart_provider.dart';
 
 
 
@@ -96,12 +98,14 @@ class ProductListScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 IconButton(
-                  icon: Icon(Icons.add_circle, color: const Color.fromARGB(255, 4, 105, 6), size: 30,),
-                  onPressed: () {
-                    // Add to cart logic
-                    print('Added ${product.name} to cart');
-                  },
-                ),
+  icon: Icon(Icons.add_circle, color: const Color.fromARGB(255, 4, 105, 6), size: 30,),
+  onPressed: () {
+    Provider.of<CartProvider>(context, listen: false).addToCart(product);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("${product.name} added to cart")),
+    );
+  },
+),
               ],
             ),
           ],

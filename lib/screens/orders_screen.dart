@@ -1,75 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:supermarket_app/models/order.dart';
+import 'order_details_screen.dart'; // ✅ import details screen
 
 class OrdersScreen extends StatelessWidget {
-  // Mock past orders
   final List<Map<String, dynamic>> orders = [
     {
-      'id': '#1001',
-      'date': '2025-07-25',
-      'total': 120.50,
-      'items': 4,
+      "id": "ORD123",
+      "date": "2025-08-20",
+      "status": "Delivered",
+      "items": [
+        {"name": "Milk", "quantity": 2, "price": 30},
+        {"name": "Bread", "quantity": 1, "price": 15},
+      ],
     },
     {
-      'id': '#1000',
-      'date': '2025-07-22',
-      'total': 85.75,
-      'items': 2,
-    },
-    {
-      'id': '#0999',
-      'date': '2025-07-18',
-      'total': 199.99,
-      'items': 6,
+      "id": "ORD124",
+      "date": "2025-08-22",
+      "status": "Pending",
+      "items": [
+        {"name": "Apples", "quantity": 5, "price": 50},
+        {"name": "Eggs", "quantity": 1, "price": 40},
+      ],
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Your Orders"),
-        backgroundColor: Colors.green[700],
-      ),
+      appBar: AppBar(title: Text("My Orders")),
       body: ListView.builder(
-        padding: EdgeInsets.all(12),
         itemCount: orders.length,
         itemBuilder: (context, index) {
           final order = orders[index];
           return Card(
-            margin: EdgeInsets.only(bottom: 12),
+            color: const Color.fromRGBO(229, 251, 230, 1),
+            margin: EdgeInsets.all(8),
             child: ListTile(
-              leading: Icon(Icons.receipt_long, color: Colors.green[800]),
-              title: Text("Order ${order['id']}"),
-              subtitle: Text("Date: ${order['date']}\nItems: ${order['items']}"),
-              isThreeLine: true,
-              trailing: FittedBox(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(
-        "${order['total'].toStringAsFixed(2)} EGP",
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      SizedBox(height: 4),
-      TextButton(
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Order details not implemented")),
-          );
-        },
-        child: Text("View"),
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.green[700],
-          padding: EdgeInsets.zero,
-          minimumSize: Size(50, 20),
-        ),
-      ),
-
-
-    ],
-  ),
-),
-
+              title: Text("Order #${order['id']}"),
+              subtitle: Text(
+                  "Date: ${order['date']}\nStatus: ${order['status']}"),
+              onTap: () {
+                // ✅ Navigate to order details
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => OrderDetailsScreen(order: order),
+                  ),
+                );
+              },
             ),
           );
         },

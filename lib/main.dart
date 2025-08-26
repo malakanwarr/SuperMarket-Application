@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:supermarket_app/providers/cart_provider.dart';
 import 'screens/loading_screen.dart';
 import 'screens/main_screen.dart'; // ✅ import your MainScreen, not just HomeScreen
 import 'screens/login_screen.dart'; // import your login screen
 
 void main() {
-  runApp(SupermarketApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => CartProvider()),
+    ],
+    child: SupermarketApp(),
+  ));
 }
 
 class SupermarketApp extends StatelessWidget {
